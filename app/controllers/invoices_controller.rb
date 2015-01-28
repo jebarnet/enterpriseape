@@ -11,6 +11,8 @@ class InvoicesController < ApplicationController
   # GET /invoices/1
   # GET /invoices/1.json
   def show
+    @invoice = Invoice.find(params[:id])
+    @purchases = @invoice.purchases
   end
 
   # GET /invoices/new
@@ -44,7 +46,8 @@ class InvoicesController < ApplicationController
     respond_to do |format|
       if @invoice.update(invoice_params)
         format.html { redirect_to @invoice, notice: 'Invoice was successfully updated.' }
-        format.json { render :show, status: :ok, location: @invoice }
+        #format.json { render :show, status: :ok, location: @invoice }
+        format.json { head :no_content }
       else
         format.html { render :edit }
         format.json { render json: @invoice.errors, status: :unprocessable_entity }
@@ -57,7 +60,8 @@ class InvoicesController < ApplicationController
   def destroy
     @invoice.destroy
     respond_to do |format|
-      format.html { redirect_to invoices_url, notice: 'Invoice was successfully destroyed.' }
+      #format.html { redirect_to invoices_url, notice: 'Invoice was successfully destroyed.' }
+      format.html { redirect_to invoices_url }
       format.json { head :no_content }
     end
   end
